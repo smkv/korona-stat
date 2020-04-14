@@ -30,11 +30,11 @@ public class Statistics {
                  .collect(groupingBy(Data::getStatisticsDate, TreeMap::new, counting()));
   }
 
-  public TreeMap<LocalDate, Double> getMovingAverageByDays(int period) {
+  public TreeMap<LocalDate, Double> getPositiveMovingAverageByDays(int period) {
     return new MovingAverage(getPositiveByDays()).getMovingAverage(period);
   }
 
-  public TreeMap<LocalDate, Double> getMovingAverageByDays(String county, int period) {
+  public TreeMap<LocalDate, Double> getPositiveMovingAverageByDays(String county, int period) {
     return new MovingAverage(getPositiveByDays(county)).getMovingAverage(period);
   }
 }

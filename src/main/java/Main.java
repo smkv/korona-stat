@@ -15,8 +15,8 @@ public class Main {
     Chart chart = new Chart("CONVID19 Estonia", "Time", "Count", 1200, 600);
     chart.addSeries("Estonia", statistics.getPositiveByDays());
     chart.addSeries("Harju maakond", statistics.getPositiveByDays("Harju maakond"));
-    chart.addSeries("Moving avg(7)", statistics.getMovingAverageByDays(7));
-    chart.addSeries("Harju maakond avg(7)", statistics.getMovingAverageByDays("Harju maakond", 7));
+    chart.addSeries("Moving avg(7)", statistics.getPositiveMovingAverageByDays(7));
+    chart.addSeries("Harju maakond avg(7)", statistics.getPositiveMovingAverageByDays("Harju maakond", 7));
     chart.show();
   }
 }

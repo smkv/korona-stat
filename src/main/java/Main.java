@@ -1,25 +1,22 @@
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
+import ee.smkv.covid19.estonia.Chart;
+import ee.smkv.covid19.estonia.Data;
+import ee.smkv.covid19.estonia.DigiliguOpenDataProvider;
+import ee.smkv.covid19.estonia.Statistics;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
+    final DigiliguOpenDataProvider provider = new DigiliguOpenDataProvider();
+    List<Data> covid19TestResults = provider.getCovid19TestResults();
+    final Statistics statistics = new Statistics(covid19TestResults);
 
-        final Provider provider = new Provider();
-        final Map<LocalDate, Long> groupedData = provider.getPositiveStatisticsByDays();
-
-        final int[] source = groupedData.values().stream().mapToInt(Long::intValue).toArray();
-        final MovingAverage movingAverage = new MovingAverage(source);
-
-
-        final XYChart chart = new XYChart(800, 600);
-        chart.addSeries("source", source);
-        chart.addSeries("AVG7", movingAverage.getMovingAverage(7));
-
-        final SwingWrapper<XYChart> wrapper = new SwingWrapper<>(chart);
-        wrapper.displayChart();
-    }
+    Chart chart = new Chart("CONVID19 Estonia", "Time", "Count", 1200, 600);
+    chart.addSeries("Estonia", statistics.getPositiveByDays());
+    chart.addSeries("Harju maakond", statistics.getPositiveByDays("Harju maakond"));
+    chart.addSeries("Moving avg(7)", statistics.getMovingAverageByDays(7));
+    chart.addSeries("Harju maakond avg(7)", statistics.getMovingAverageByDays("Harju maakond", 7));
+    chart.show();
+  }
 }

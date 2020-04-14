@@ -1,3 +1,5 @@
+package ee.smkv.covid19.estonia;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -113,7 +115,7 @@ public class Data {
 
     @Override
     public String toString() {
-        return "Data{" +
+        return "ee.smkv.covid19.estonia.Data{" +
                 "id='" + id + '\'' +
                 ", Gender='" + Gender + '\'' +
                 ", AgeGroup='" + AgeGroup + '\'' +

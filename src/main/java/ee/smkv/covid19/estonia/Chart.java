@@ -3,6 +3,7 @@ package ee.smkv.covid19.estonia;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.style.Styler;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Chart {
       .width(width)
       .height(height)
       .build();
+    chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
   }
 
   public void addSeries(String title, TreeMap<LocalDate, ? extends Number> data) {

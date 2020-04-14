@@ -9,13 +9,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 class LocalDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
-@Override
-public void write(JsonWriter out, LocalDateTime value) throws IOException {
-  out.jsonValue(value.toString());
-}
+  @Override
+  public void write(JsonWriter out, LocalDateTime value) throws IOException {
+    out.jsonValue(value.format(DateTimeFormatter.ISO_DATE_TIME));
+  }
 
-@Override
-public LocalDateTime read(JsonReader in) throws IOException {
-  return LocalDateTime.parse(in.nextString(), DateTimeFormatter.ISO_DATE_TIME);
-}
+  @Override
+  public LocalDateTime read(JsonReader in) throws IOException {
+    return LocalDateTime.parse(in.nextString(), DateTimeFormatter.ISO_DATE_TIME);
+  }
 }

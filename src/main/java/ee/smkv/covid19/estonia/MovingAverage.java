@@ -13,6 +13,10 @@ public class MovingAverage {
     this.source = source;
   }
 
+  public static TreeMap<LocalDate, Double> getMovingAverage(final TreeMap<LocalDate, Long> source, final int n) {
+    return new MovingAverage(source).getMovingAverage(n);
+  }
+
   public TreeMap<LocalDate, Double> getMovingAverage(final int n) {
     if (n < 1) {
       throw new IllegalArgumentException("n < 1");

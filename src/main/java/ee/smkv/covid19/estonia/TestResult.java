@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Data {
+public class TestResult {
     String id; // "95013b64dd5ff18548a92eb5375d9c4a1881467390fed4a1c084253ef72be9ea",
     String Gender; // "M" - man, "N" - woman
     String AgeGroup; // "10-14",
@@ -96,16 +96,16 @@ public class Data {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Data data = (Data) o;
-        return Objects.equals(id, data.id) &&
-                Objects.equals(Gender, data.Gender) &&
-                Objects.equals(AgeGroup, data.AgeGroup) &&
-                Objects.equals(Country, data.Country) &&
-                Objects.equals(County, data.County) &&
-                Objects.equals(ResultValue, data.ResultValue) &&
-                Objects.equals(StatisticsDate, data.StatisticsDate) &&
-                Objects.equals(ResultTime, data.ResultTime) &&
-                Objects.equals(AnalysisInsertTime, data.AnalysisInsertTime);
+        TestResult testResult = (TestResult) o;
+        return Objects.equals(id, testResult.id) &&
+               Objects.equals(Gender, testResult.Gender) &&
+               Objects.equals(AgeGroup, testResult.AgeGroup) &&
+               Objects.equals(Country, testResult.Country) &&
+               Objects.equals(County, testResult.County) &&
+               Objects.equals(ResultValue, testResult.ResultValue) &&
+               Objects.equals(StatisticsDate, testResult.StatisticsDate) &&
+               Objects.equals(ResultTime, testResult.ResultTime) &&
+               Objects.equals(AnalysisInsertTime, testResult.AnalysisInsertTime);
     }
 
     @Override

@@ -1,0 +1,8 @@
+
+.default-color0.chart-bar {
+  -fx-bar-fill: rgba(34, 139, 34, 0.44);
+}
+
+.default-color1.chart-bar {
+  -fx-bar-fill: rgba(37, 36, 139, 0.44);
+}

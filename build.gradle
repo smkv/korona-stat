@@ -11,6 +11,5 @@ repositories {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'org.knowm.xchart:xchart:3.6.2'
     testCompile 'junit:junit:4.12'
 }

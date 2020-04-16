@@ -5,13 +5,19 @@ import ee.smkv.covid19.estonia.StatisticsByDate;
 import ee.smkv.covid19.estonia.TestResult;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -45,19 +51,17 @@ public class Main extends Application {
     StatisticsByDate positiveInHarjuCounty = statistics.getPositiveByDays("Harju maakond");
     stage.setTitle("COVID19 Estonia");
 
-    double max = positiveInEstonia.getMaxValue().doubleValue() * 1.10 ;
+    double max = positiveInEstonia.getMaxValue().doubleValue() * 1.10;
     final BarChart<String, Number> barChart = new BarChart<>(createXAxis(), createYAxis(max));
     barChart.setBarGap(2);
     barChart.setCategoryGap(1);
     barChart.setLegendVisible(false);
     barChart.setAnimated(false);
-    setCss(barChart, "bar-chart.css");
 
     final LineChart<String, Number> lineChart = new LineChart<>(createXAxis(), createYAxis(max));
     lineChart.setCreateSymbols(false);
     lineChart.setLegendVisible(false);
     lineChart.setAnimated(false);
-    setCss(lineChart, "line-chart.css");
 
     barChart.getData().add(createSeries("Positive in Estonia", positiveInEstonia));
     barChart.getData().add(createSeries("Positive in Harju maakond", positiveInHarjuCounty));
@@ -65,14 +69,36 @@ public class Main extends Application {
     lineChart.getData().add(createSeries("Average in Estonia", MovingAverage.getMovingAverage(positiveInEstonia, 7)));
     lineChart.getData().add(createSeries("Average in Harju maakond", MovingAverage.getMovingAverage(positiveInHarjuCounty, 7)));
 
-    StackPane root = new StackPane();
-    root.getChildren().addAll(barChart, lineChart);
+    StackPane chartsPane = new StackPane();
+    chartsPane.getChildren().addAll(barChart, lineChart);
+
+    BorderPane root = new BorderPane(chartsPane);
+    FlowPane legendPane = new FlowPane(Orientation.HORIZONTAL);
+    root.setBottom(legendPane);
+    legendPane.getStyleClass().add("legend");
+    legendPane.getChildren().addAll(
+      getLegendItem(" Positive in Estonia", "positive-in-estonia"),
+      getLegendItem(" Positive in Harju maakond", "positive-in-harju"),
+      getLegendItem(" Moving average(7 days) in Estonia", "average-in-estonia"),
+      getLegendItem(" Moving average(7 days) in Harju maakond", "average-in-harju")
+    );
 
     configureOverlayChart(lineChart);
 
     Scene scene = new Scene(root, 1200, 600);
     stage.setScene(scene);
+    scene.getStylesheets().add("style.css");
     stage.show();
+  }
+
+  private Node getLegendItem(String label, String cssClassName) {
+    BorderPane pane = new BorderPane(new Label(label));
+    Circle circle = new Circle(6);
+    circle.getStyleClass().add(cssClassName);
+    circle.getStyleClass().add("legend-icon");
+    pane.setLeft(circle);
+    pane.getStyleClass().add("legend-item");
+    return pane;
   }
 
   private NumberAxis createYAxis(double max) {
@@ -106,9 +132,5 @@ public class Main extends Application {
     chart.setVerticalGridLinesVisible(false);
     chart.getXAxis().setVisible(false);
     chart.getYAxis().setVisible(false);
-  }
-
-  private void setCss(XYChart<String, Number> chart, String file) {
-    chart.getStylesheets().addAll(getClass().getResource(file).toExternalForm());
   }
 }

@@ -1,0 +1,56 @@
+* {
+  -fx-fill-estonia: #2b8b2b;
+  -fx-fill-harju: #25248b;
+  -fx-opacity-positive: 0.44;
+}
+
+
+.chart-plot-background {
+  -fx-background-color: transparent;
+}
+
+.default-color0.chart-series-line {
+  -fx-stroke: -fx-fill-estonia;
+}
+
+.default-color1.chart-series-line {
+  -fx-stroke: -fx-fill-harju;
+}
+
+
+.default-color0.chart-bar {
+  -fx-bar-fill: -fx-fill-estonia;
+  -fx-opacity: -fx-opacity-positive;
+}
+
+.default-color1.chart-bar {
+  -fx-bar-fill: -fx-fill-harju;
+  -fx-opacity: -fx-opacity-positive;
+}
+
+.positive-in-estonia {
+  -fx-fill: -fx-fill-estonia;
+  -fx-opacity: -fx-opacity-positive;
+}
+
+.positive-in-harju {
+  -fx-fill: -fx-fill-harju;
+  -fx-opacity: -fx-opacity-positive;
+}
+
+.average-in-estonia {
+  -fx-fill: -fx-fill-estonia;
+}
+
+.average-in-harju {
+  -fx-fill: -fx-fill-harju;
+}
+
+.legend{
+  -fx-hgap: 20;
+  -fx-alignment: center;
+}
+
+.legend-item{
+  -fx-padding: 10;
+}

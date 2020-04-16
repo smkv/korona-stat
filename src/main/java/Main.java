@@ -1,6 +1,7 @@
 import ee.smkv.covid19.estonia.DigiliguOpenDataProvider;
 import ee.smkv.covid19.estonia.MovingAverage;
 import ee.smkv.covid19.estonia.Statistics;
+import ee.smkv.covid19.estonia.StatisticsByDate;
 import ee.smkv.covid19.estonia.TestResult;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -14,10 +15,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.TreeMap;
 
 public class Main extends Application {
   final DigiliguOpenDataProvider provider = new DigiliguOpenDataProvider();
@@ -42,24 +41,22 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) {
     final Statistics statistics = new Statistics(covid19TestResult);
-    TreeMap<LocalDate, Long> positiveInEstonia = statistics.getPositiveByDays();
-    TreeMap<LocalDate, Long> positiveInHarjuCounty = statistics.getPositiveByDays("Harju maakond");
+    StatisticsByDate positiveInEstonia = statistics.getPositiveByDays();
+    StatisticsByDate positiveInHarjuCounty = statistics.getPositiveByDays("Harju maakond");
     stage.setTitle("COVID19 Estonia");
 
-    CategoryAxis xAxis = new CategoryAxis();
-    xAxis.setLabel("Date");
-
-    NumberAxis yAxis = new NumberAxis();
-    yAxis.setLabel("Positive");
-
-    final BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+    double max = positiveInEstonia.getMaxValue().doubleValue() * 1.10 ;
+    final BarChart<String, Number> barChart = new BarChart<>(createXAxis(), createYAxis(max));
     barChart.setBarGap(2);
     barChart.setCategoryGap(1);
+    barChart.setLegendVisible(false);
+    barChart.setAnimated(false);
     setCss(barChart, "bar-chart.css");
 
-    final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
+    final LineChart<String, Number> lineChart = new LineChart<>(createXAxis(), createYAxis(max));
     lineChart.setCreateSymbols(false);
-    lineChart.setOpacity(0.7);
+    lineChart.setLegendVisible(false);
+    lineChart.setAnimated(false);
     setCss(lineChart, "line-chart.css");
 
     barChart.getData().add(createSeries("Positive in Estonia", positiveInEstonia));
@@ -78,7 +75,22 @@ public class Main extends Application {
     stage.show();
   }
 
-  private XYChart.Series<String, Number> createSeries(String name, TreeMap<LocalDate, ? extends Number> positiveInEstonia) {
+  private NumberAxis createYAxis(double max) {
+    NumberAxis yAxis = new NumberAxis();
+    yAxis.setLabel("Positive");
+    yAxis.setAutoRanging(false);
+    yAxis.setLowerBound(0);
+    yAxis.setUpperBound(max);
+    return yAxis;
+  }
+
+  private CategoryAxis createXAxis() {
+    CategoryAxis xAxis = new CategoryAxis();
+    xAxis.setLabel("Date");
+    return xAxis;
+  }
+
+  private XYChart.Series<String, Number> createSeries(String name, StatisticsByDate positiveInEstonia) {
     XYChart.Series<String, Number> series = new XYChart.Series<>();
     series.setName(name);
     ObservableList<XYChart.Data<String, Number>> seriesData = series.getData();

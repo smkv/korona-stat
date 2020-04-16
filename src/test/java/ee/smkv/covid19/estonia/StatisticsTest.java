@@ -27,8 +27,8 @@ public class StatisticsTest {
     expected.put(LocalDate.parse("2020-04-02"), 2L);
     expected.put(LocalDate.parse("2020-04-03"), 0L);
     expected.put(LocalDate.parse("2020-04-04"), 1L);
-    TreeMap<LocalDate, Long> actual = statistics.getPositiveByDays();
-    assertEquals(expected, actual);
+    StatisticsByDate actual = statistics.getPositiveByDays();
+    assertEquals(new StatisticsByDate(expected), actual);
   }
 
   @Test

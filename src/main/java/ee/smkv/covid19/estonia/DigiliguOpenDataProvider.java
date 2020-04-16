@@ -3,6 +3,8 @@ package ee.smkv.covid19.estonia;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -20,10 +22,20 @@ public class DigiliguOpenDataProvider {
     .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter().nullSafe())
     .create();
 
-  public List<TestResult> getCovid19TestResults() throws IOException {
+  public List<TestResult> getCovid19TestResultsOnline() throws IOException {
     try (Reader reader = new InputStreamReader(COVID19_TEST_RESULTS_URI.toURL().openStream())) {
-      final TestResult[] results = gson.fromJson(reader, TestResult[].class);
-      return Arrays.asList(results);
+      return getTestResults(reader);
     }
+  }
+
+  public List<TestResult> getCovid19TestResultsOffline(File file) throws IOException {
+    try (Reader reader = new FileReader(file)) {
+      return getTestResults(reader);
+    }
+  }
+
+  private List<TestResult> getTestResults(Reader reader) {
+    final TestResult[] results = gson.fromJson(reader, TestResult[].class);
+    return Arrays.asList(results);
   }
 }

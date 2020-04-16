@@ -15,6 +15,20 @@ public class TestResult {
     LocalDateTime ResultTime; // "2020-03-06T18:44:00+02:00",
     LocalDateTime AnalysisInsertTime; // "2020-03-10T16:01:55+02:00"
 
+    public TestResult() {
+    }
+
+    public TestResult(String id, String gender, String ageGroup, String country, String county, String resultValue, LocalDate statisticsDate, LocalDateTime resultTime, LocalDateTime analysisInsertTime) {
+        this.id = id;
+        Gender = gender;
+        AgeGroup = ageGroup;
+        Country = country;
+        County = county;
+        ResultValue = resultValue;
+        StatisticsDate = statisticsDate;
+        ResultTime = resultTime;
+        AnalysisInsertTime = analysisInsertTime;
+    }
 
     public String getId() {
         return id;

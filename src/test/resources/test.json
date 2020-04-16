@@ -1,0 +1,35 @@
+[
+  {
+    "id": "95013b64dd5ff18548a92eb5375d9c4a1881467390fed4a1c084253ef72be9ea",
+    "Gender": "M",
+    "AgeGroup": "10-14",
+    "Country": "Eesti",
+    "County": "Tartu maakond",
+    "ResultValue": "N",
+    "StatisticsDate": "2020-03-10",
+    "ResultTime": "2020-03-06T18:44:00+02:00",
+    "AnalysisInsertTime": "2020-03-10T16:01:55+02:00"
+  },
+  {
+    "id": "71fab95aa66a3976b9d9f2868482192fc2bb77ac07d6808b1b19079e045fe6de",
+    "Gender": "M",
+    "AgeGroup": "5-9",
+    "Country": "Eesti",
+    "County": "Tartu maakond",
+    "ResultValue": "P",
+    "StatisticsDate": "2020-03-10",
+    "ResultTime": "2020-03-06T13:28:00+02:00",
+    "AnalysisInsertTime": "2020-03-10T16:05:53+02:00"
+  },
+  {
+    "id": "e474cb8d21136013c9c90877592ee8d6b20d1bd72ef48a7a916030211f15833f",
+    "Gender": "M",
+    "AgeGroup": "20-24",
+    "Country": "Eesti",
+    "County": "Harju maakond",
+    "ResultValue": "N",
+    "StatisticsDate": "2020-03-10",
+    "ResultTime": "2020-03-05T00:00:00+02:00",
+    "AnalysisInsertTime": "2020-03-10T15:53:52+02:00"
+  }
+]

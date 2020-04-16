@@ -3,6 +3,7 @@ import ee.smkv.covid19.estonia.MovingAverage;
 import ee.smkv.covid19.estonia.Statistics;
 import ee.smkv.covid19.estonia.TestResult;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -12,7 +13,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -27,7 +30,13 @@ public class Main extends Application {
   @Override
   public void init() throws Exception {
     super.init();
-    covid19TestResult = provider.getCovid19TestResults();
+    String fileName = getParameters().getNamed().get("file");
+    if (fileName != null) {
+      covid19TestResult = provider.getCovid19TestResultsOffline(new File(fileName));
+    }
+    else {
+      covid19TestResult = provider.getCovid19TestResultsOnline();
+    }
   }
 
   @Override
@@ -72,7 +81,9 @@ public class Main extends Application {
   private XYChart.Series<String, Number> createSeries(String name, TreeMap<LocalDate, ? extends Number> positiveInEstonia) {
     XYChart.Series<String, Number> series = new XYChart.Series<>();
     series.setName(name);
-    positiveInEstonia.forEach((date, value) -> series.getData().add(new XYChart.Data<>(date.toString(), value)));
+    ObservableList<XYChart.Data<String, Number>> seriesData = series.getData();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
+    positiveInEstonia.forEach((date, value) -> seriesData.add(new XYChart.Data<>(date.format(formatter), value)));
     return series;
   }
 

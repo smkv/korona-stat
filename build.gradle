@@ -12,6 +12,8 @@ repositories {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/eu.hansolo/tilesfx
+    implementation group: 'eu.hansolo', name: 'tilesfx', version: '1.6.8'
     implementation 'com.google.code.gson:gson:2.8.6'
     testCompile 'junit:junit:4.12'
 }

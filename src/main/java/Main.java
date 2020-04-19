@@ -3,6 +3,7 @@ import ee.smkv.covid19.estonia.MovingAverage;
 import ee.smkv.covid19.estonia.Statistics;
 import ee.smkv.covid19.estonia.StatisticsByDate;
 import ee.smkv.covid19.estonia.TestResult;
+import eu.hansolo.tilesfx.chart.SmoothedChart;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -59,7 +60,7 @@ public class Main extends Application {
     barChart.setLegendVisible(false);
     barChart.setAnimated(false);
 
-    final LineChart<String, Number> lineChart = new LineChart<>(createXAxis(), createYAxis(max));
+    final SmoothedChart<String, Number> lineChart = new SmoothedChart<>(createXAxis(), createYAxis(max));
     lineChart.setCreateSymbols(false);
     lineChart.setLegendVisible(false);
     lineChart.setAnimated(false);

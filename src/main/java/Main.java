@@ -8,10 +8,10 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -49,11 +49,12 @@ public class Main extends Application {
     final Statistics statistics = new Statistics(covid19TestResult);
     StatisticsByDate positiveInEstonia = statistics.getPositiveByDays();
     StatisticsByDate positiveInHarjuCounty = statistics.getPositiveByDays("Harju maakond");
+    StatisticsByDate positiveExcludeHarjuCounty = statistics.getPositiveByDaysExclude("Harju maakond");
     stage.setTitle("COVID19 Estonia");
 
     double max = positiveInEstonia.getMaxValue().doubleValue() * 1.10;
-    final BarChart<String, Number> barChart = new BarChart<>(createXAxis(), createYAxis(max));
-    barChart.setBarGap(2);
+    final StackedBarChart<String, Number> barChart = new StackedBarChart<>(createXAxis(), createYAxis(max));
+    barChart.setCategoryGap(2);
     barChart.setCategoryGap(1);
     barChart.setLegendVisible(false);
     barChart.setAnimated(false);
@@ -63,8 +64,8 @@ public class Main extends Application {
     lineChart.setLegendVisible(false);
     lineChart.setAnimated(false);
 
-    barChart.getData().add(createSeries("Positive in Estonia", positiveInEstonia));
     barChart.getData().add(createSeries("Positive in Harju maakond", positiveInHarjuCounty));
+    barChart.getData().add(createSeries("Positive in Estonia", positiveExcludeHarjuCounty));
 
     lineChart.getData().add(createSeries("Average in Estonia", MovingAverage.getMovingAverage(positiveInEstonia, 7)));
     lineChart.getData().add(createSeries("Average in Harju maakond", MovingAverage.getMovingAverage(positiveInHarjuCounty, 7)));

@@ -32,6 +32,15 @@ public class Statistics {
     return new StatisticsByDate(fillMissingDates(map));
   }
 
+  public StatisticsByDate getPositiveByDaysExclude(String county) {
+    TreeMap<LocalDate, Long> map = source.stream()
+                                         .filter(TestResult::isPositive)
+                                         .filter(testResult -> !county.equalsIgnoreCase(testResult.getCounty()))
+                                         .sorted(comparing(TestResult::getStatisticsDate))
+                                         .collect(groupingBy(TestResult::getStatisticsDate, TreeMap::new, counting()));
+    return new StatisticsByDate(fillMissingDates(map));
+  }
+
   private TreeMap<LocalDate, Long> fillMissingDates(TreeMap<LocalDate, Long> map) {
     LocalDate startDate = getStartDate();
     LocalDate endDate = getEndDate();

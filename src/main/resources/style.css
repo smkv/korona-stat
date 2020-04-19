@@ -18,12 +18,12 @@
 }
 
 
-.default-color0.chart-bar {
+.default-color1.chart-bar {
   -fx-bar-fill: -fx-fill-estonia;
   -fx-opacity: -fx-opacity-positive;
 }
 
-.default-color1.chart-bar {
+.default-color0.chart-bar {
   -fx-bar-fill: -fx-fill-harju;
   -fx-opacity: -fx-opacity-positive;
 }

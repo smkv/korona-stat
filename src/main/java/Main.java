@@ -10,7 +10,6 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
@@ -51,7 +50,7 @@ public class Main extends Application {
     StatisticsByDate positiveInEstonia = statistics.getPositiveByDays();
     StatisticsByDate positiveInHarjuCounty = statistics.getPositiveByDays("Harju maakond");
     StatisticsByDate positiveExcludeHarjuCounty = statistics.getPositiveByDaysExclude("Harju maakond");
-    stage.setTitle("COVID19 Estonia");
+    stage.setTitle("COVID19 Estonia - Daily cases");
 
     double max = positiveInEstonia.getMaxValue().doubleValue() * 1.10;
     final StackedBarChart<String, Number> barChart = new StackedBarChart<>(createXAxis(), createYAxis(max));
@@ -65,10 +64,10 @@ public class Main extends Application {
     lineChart.setLegendVisible(false);
     lineChart.setAnimated(false);
 
-    barChart.getData().add(createSeries("Positive in Harju maakond", positiveInHarjuCounty));
-    barChart.getData().add(createSeries("Positive in Estonia", positiveExcludeHarjuCounty));
+    barChart.getData().add(createSeries("Daily cases in Harju maakond", positiveInHarjuCounty));
+    barChart.getData().add(createSeries("Daily case in Estonia total", positiveExcludeHarjuCounty));
 
-    lineChart.getData().add(createSeries("Average in Estonia", MovingAverage.getMovingAverage(positiveInEstonia, 7)));
+    lineChart.getData().add(createSeries("Average in Estonia total", MovingAverage.getMovingAverage(positiveInEstonia, 7)));
     lineChart.getData().add(createSeries("Average in Harju maakond", MovingAverage.getMovingAverage(positiveInHarjuCounty, 7)));
 
     StackPane chartsPane = new StackPane();
@@ -79,9 +78,9 @@ public class Main extends Application {
     root.setBottom(legendPane);
     legendPane.getStyleClass().add("legend");
     legendPane.getChildren().addAll(
-      getLegendItem(" Positive in Estonia", "positive-in-estonia"),
-      getLegendItem(" Positive in Harju maakond", "positive-in-harju"),
-      getLegendItem(" Moving average(7 days) in Estonia", "average-in-estonia"),
+      getLegendItem(" Daily cases in Estonia total", "positive-in-estonia"),
+      getLegendItem(" Daily cases in Harju maakond", "positive-in-harju"),
+      getLegendItem(" Moving average(7 days) in Estonia total", "average-in-estonia"),
       getLegendItem(" Moving average(7 days) in Harju maakond", "average-in-harju")
     );
 

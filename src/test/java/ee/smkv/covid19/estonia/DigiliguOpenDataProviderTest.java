@@ -18,9 +18,9 @@ public class DigiliguOpenDataProviderTest {
 
   @Test
   public void getCovid19TestResultsOffline() throws IOException {
-    List<TestResult> results = provider.getCovid19TestResultsOffline(new File("src/test/resources/test.json"));
+    TestResults results = provider.getCovid19TestResultsOffline(new File("src/test/resources/test.json"));
 
-    List<TestResult> expected = Arrays.asList(
+    TestResults expected = new TestResults(
       new TestResult("95013b64dd5ff18548a92eb5375d9c4a1881467390fed4a1c084253ef72be9ea",
                      "M",
                      "10-14",

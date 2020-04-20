@@ -11,8 +11,6 @@ import java.io.Reader;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 public class DigiliguOpenDataProvider {
 
@@ -22,20 +20,20 @@ public class DigiliguOpenDataProvider {
     .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter().nullSafe())
     .create();
 
-  public List<TestResult> getCovid19TestResultsOnline() throws IOException {
+  public TestResults getCovid19TestResultsOnline() throws IOException {
     try (Reader reader = new InputStreamReader(COVID19_TEST_RESULTS_URI.toURL().openStream())) {
       return getTestResults(reader);
     }
   }
 
-  public List<TestResult> getCovid19TestResultsOffline(File file) throws IOException {
+  public TestResults getCovid19TestResultsOffline(File file) throws IOException {
     try (Reader reader = new FileReader(file)) {
       return getTestResults(reader);
     }
   }
 
-  private List<TestResult> getTestResults(Reader reader) {
+  private TestResults getTestResults(Reader reader) {
     final TestResult[] results = gson.fromJson(reader, TestResult[].class);
-    return Arrays.asList(results);
+    return new TestResults(results);
   }
 }

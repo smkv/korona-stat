@@ -6,4 +6,4 @@ https://opendata.digilugu.ee/opendata_covid19_test_results.json
 
 Uses moving average to see trends.
 
-![Screenshot at 22 Apr 2020](https://github.com/smkv/korona-stat/raw/master/covid19.png)
+![Screenshot at 24 Apr 2020](https://github.com/smkv/korona-stat/raw/master/covid19.png)

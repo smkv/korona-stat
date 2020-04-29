@@ -16,17 +16,13 @@ public class Statistics {
   }
 
   public StatisticsByDate getPositiveByDays() {
-    TreeMap<LocalDate, Long> map = source.stream()
-                                         .filter(TestResult::isPositive)
-                                         .sorted(comparing(TestResult::getStatisticsDate))
-                                         .collect(groupingBy(TestResult::getStatisticsDate, TreeMap::new, counting()));
-    return new StatisticsByDate(fillMissingDates(map));
+    return getPositiveByDays(null);
   }
 
   public StatisticsByDate getPositiveByDays(String county) {
     TreeMap<LocalDate, Long> map = source.stream()
                                          .filter(TestResult::isPositive)
-                                         .filter(testResult -> county.equalsIgnoreCase(testResult.getCounty()))
+                                         .filter(testResult -> county == null || county.equalsIgnoreCase(testResult.getCounty()))
                                          .sorted(comparing(TestResult::getStatisticsDate))
                                          .collect(groupingBy(TestResult::getStatisticsDate, TreeMap::new, counting()));
     return new StatisticsByDate(fillMissingDates(map));

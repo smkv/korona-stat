@@ -27,6 +27,10 @@ public class StatisticsByDate {
     return max.isPresent() ? max.get() : Double.valueOf(0);
   }
 
+  public LocalDate getMaxDate(){
+    return data.lastKey();
+  }
+
   public boolean containsKey(LocalDate key) {
     return data.containsKey(key);
   }

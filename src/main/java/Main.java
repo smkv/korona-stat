@@ -1,3 +1,4 @@
+import ee.smkv.covid19.estonia.ActiveCases;
 import ee.smkv.covid19.estonia.DigiliguOpenDataProvider;
 import ee.smkv.covid19.estonia.DigiliguOpenDataService;
 import ee.smkv.covid19.estonia.MovingAverage;
@@ -32,6 +33,7 @@ public class Main extends Application {
   private StackedBarChart<String, Number> dailyCasesBarChart;
   private SmoothedChart<String, Number> movingAverageSmoothLineChart;
   private BorderPane loadingPane;
+  private FlowPane activeCasesPane;
 
   public static void main(String[] args) {
     launch(args);
@@ -44,6 +46,8 @@ public class Main extends Application {
     dailyCasesBarChart = createDailyCasesBarChart();
     movingAverageSmoothLineChart = createMovingAverageSmoothLineChart();
     loadingPane = new BorderPane(new Label("Loading data, please wait...."));
+    activeCasesPane = new FlowPane(Orientation.HORIZONTAL);
+    activeCasesPane.getStyleClass().add("active-cases");
   }
 
   private Optional<File> getOfflineFile() {
@@ -56,6 +60,7 @@ public class Main extends Application {
   public void start(Stage stage) {
     stage.setTitle("COVID19 Estonia - Daily cases");
     BorderPane root = new BorderPane(new StackPane(dailyCasesBarChart, movingAverageSmoothLineChart, loadingPane));
+    root.setTop(activeCasesPane);
     root.setBottom(createCustomChartLegend());
     Scene scene = new Scene(root, 1200, 600);
     stage.setScene(scene);
@@ -71,8 +76,17 @@ public class Main extends Application {
     StatisticsByDate positiveInEstonia = statistics.getPositiveByDays();
     StatisticsByDate positiveInHarjuCounty = statistics.getPositiveByDays("Harju maakond");
     StatisticsByDate positiveExcludeHarjuCounty = statistics.getPositiveByDaysExclude("Harju maakond");
+    StatisticsByDate activeInEstonia = ActiveCases.calculate(positiveInEstonia, 14);
+    StatisticsByDate activeInHarjuCounty = ActiveCases.calculate(positiveInHarjuCounty, 14);
 
-    double max = positiveInEstonia.getMaxValue().doubleValue() * 1.10;
+    activeCasesPane.getChildren().setAll(
+      createActiveCasesInfo("Estonia", activeInEstonia),
+      createActiveCasesInfo("Harju maakond", activeInHarjuCounty),
+      new Label("[calculated based on 14 days for full recovery after infection confirmed]")
+    );
+
+    double max = positiveInEstonia.getMaxValue().doubleValue();
+    max = Math.round(max * 0.11) * 10;
     ((NumberAxis)movingAverageSmoothLineChart.getYAxis()).setUpperBound(max);
     ((NumberAxis)dailyCasesBarChart.getYAxis()).setUpperBound(max);
 
@@ -83,6 +97,12 @@ public class Main extends Application {
     movingAverageSmoothLineChart.getData().add(createSeries("Average in Harju maakond", MovingAverage.getMovingAverage(positiveInHarjuCounty, 7)));
 
     loadingPane.setVisible(false);
+  }
+
+  private Label createActiveCasesInfo(String county, StatisticsByDate activeByDate) {
+    Number activeCases = activeByDate.get(activeByDate.getMaxDate());
+    Number prevDay = activeByDate.get(activeByDate.getMaxDate().minusDays(1));
+    return new Label(String.format("Active cases in %s: %d (%s)", county, activeCases.longValue(), activeCases.longValue() > prevDay.longValue() ? "\u2191" : "\u2193"));
   }
 
   private Pane createCustomChartLegend() {

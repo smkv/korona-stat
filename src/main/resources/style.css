@@ -54,6 +54,11 @@
   -fx-alignment: center;
 }
 
+.active-cases{
+  -fx-hgap: 20;
+  -fx-alignment: center;
+}
+
 .legend-item{
   -fx-padding: 10;
 }
